@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hptracker_flutter/ui/core/ui/damage_button/damagebutton_view.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({
@@ -34,30 +35,32 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Center(child: Text(widget.title.toUpperCase()),),
         elevation: 2,
       ),
-      body: Center(
-        child: Column(
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
               Text(widget.characterName),
             ],),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("HP: ${widget.currentHp} / ${widget.maxHp}")
+                    Padding(
+                      padding: EdgeInsets.all(25.0),
+                      child: Text("HP: ${widget.currentHp} / ${widget.maxHp}"),),
+                    
+                    Text("TempHP: ${widget.currentTempHp} / ${widget.maxTempHp}"),
                   ],
                 ),
-                Column(
-
-                )
+                DamageButton(),
               ],
-            )
-
+            ),
         ],
         ),
-      ),
       drawer: Column(
         children: [Placeholder()],
       ),
