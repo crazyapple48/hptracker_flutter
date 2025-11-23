@@ -49,10 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(25.0),
-                      child: Text("HP: ${widget.currentHp} / ${widget.maxHp}"),),
-                    
+                    Text("HP: ${widget.currentHp} / ${widget.maxHp}"),
+                    SizedBox(height: 30),
                     Text("TempHP: ${widget.currentTempHp} / ${widget.maxTempHp}"),
                   ],
                 ),
