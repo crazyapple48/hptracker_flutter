@@ -25,13 +25,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       home: const MyHomePage(
         title: 'Hp Tracker',
-        characterName: "Charles",
-        currentHp: 25,
-        maxHp: 25,
-        currentTempHp: 0,
-        maxTempHp: 0,
-        currentHitDice: 10,
-        maxHitDice: 10,),
+        ),
     );
   }
 }
