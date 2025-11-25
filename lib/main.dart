@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hptracker_flutter/ui/home/home_viewmodel/home_viewmodel.dart';
 
+import 'data/repositories/character_repository.dart';
 import 'ui/home/widgets/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  CharacterRepository characterRepository = CharacterRepository();
 
   // This widget is the root of your application.
   @override
@@ -23,8 +27,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 124, 7, 170), brightness: Brightness.dark)
       ),
       themeMode: ThemeMode.system,
-      home: const MyHomePage(
+      home: MyHomePage(
         title: 'Hp Tracker',
+        viewModel: HomeViewModel(characterRepository: characterRepository)
         ),
     );
   }
