@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hptracker_flutter/domain/models/character.dart';
 import 'package:hptracker_flutter/ui/core/ui/damage_button/damagebutton_view.dart';
 import 'package:hptracker_flutter/ui/home/home_viewmodel/home_viewmodel.dart';
 

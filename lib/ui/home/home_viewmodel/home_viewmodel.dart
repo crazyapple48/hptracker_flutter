@@ -23,7 +23,7 @@ class HomeViewModel extends ChangeNotifier{
       _character = result;
       notifyListeners();
     } catch (e) {
-      print(e);
+      throw Error();
     }
     
   }
