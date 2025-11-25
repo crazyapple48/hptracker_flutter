@@ -16,11 +16,16 @@ class HomeViewModel extends ChangeNotifier{
 
   int amount = 0;
 
-  void loadCharacter() {
-    final result = _characterRepository.getCharacter();
+  void loadCharacter() async {
+    try {
+      final result = await _characterRepository.getCharacter();
 
-    _character = result;
-    notifyListeners();
+      _character = result;
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+    
   }
 
 

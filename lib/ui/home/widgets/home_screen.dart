@@ -16,7 +16,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     viewModel.loadCharacter();
-    Character? character = viewModel.character;
+
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text(title.toUpperCase()),),
@@ -25,13 +25,15 @@ class MyHomePage extends StatelessWidget {
       body: ListenableBuilder(
         listenable: viewModel,
         builder: (context, _) {
+          final character = viewModel.character;
+          if (character == null) return const Text("Loading....");
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                Text(character!.name),
+                  Text(character.name),
               ],),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
