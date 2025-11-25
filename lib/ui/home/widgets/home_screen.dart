@@ -54,6 +54,26 @@ class MyHomePage extends StatelessWidget {
                     ),
                 ],
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text("Hit Dice: ${character.currentHitDice} / ${character.maxHitDice}"),
+                  FilledButton(
+                    onPressed: viewModel.useHitDie, 
+                    child: Text("Use a hit die")),
+              ],),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  // FilledButton(
+                  //   onPressed: () {}, 
+                  //   child: Text("Short Rest"),
+                  //   ),
+                  FilledButton(
+                    onPressed: viewModel.longRest, 
+                    child: Text("Long Rest")),
+                ],
+              )
           ],
           );
         },
