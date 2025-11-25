@@ -39,7 +39,7 @@ class MyHomePage extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("HP: ${character!.currentHp} / ${character!.maxHp}"),
+                      Text("HP: ${character.currentHp} / ${character.maxHp}"),
                       SizedBox(height: 30),
                       Text("TempHP: ${character.currentTempHp} / ${character.maxTempHp}"),
                     ],

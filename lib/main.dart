@@ -11,7 +11,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  CharacterRepository characterRepository = CharacterRepository();
+  final CharacterRepository characterRepository = CharacterRepository();
 
   // This widget is the root of your application.
   @override
