@@ -120,6 +120,12 @@ class HomeViewModel extends ChangeNotifier{
 
   void useHitDie() {
     if (character == null) return;
+
+    if (character!.currentHitDice <= 0) {
+      character!.currentHitDice = 0;
+      notifyListeners();
+      return;
+    }
     character!.currentHitDice--;
     notifyListeners();
   }
