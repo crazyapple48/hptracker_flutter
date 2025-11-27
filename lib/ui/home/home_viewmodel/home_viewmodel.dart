@@ -18,9 +18,7 @@ class HomeViewModel extends ChangeNotifier{
 
   void loadCharacter() async {
     try {
-      final result = await _characterRepository.getCharacter();
-
-      _character = result;
+      _character = await _characterRepository.getCharacter();
       notifyListeners();
     } catch (e) {
       throw Error();
