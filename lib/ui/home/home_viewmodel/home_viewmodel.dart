@@ -52,12 +52,14 @@ class HomeViewModel extends ChangeNotifier{
 
         character!.currentTempHp = character!.currentTempHp - character!.currentTempHp;
         character!.currentHp = character!.currentHp - difference;
+        amount = 0;
         notifyListeners();
         return;
       }
 
       // take damage to tempHP
       character!.currentTempHp = character!.currentTempHp - amount;
+      amount = 0;
       notifyListeners();
       return;
     }
@@ -65,12 +67,14 @@ class HomeViewModel extends ChangeNotifier{
     // take damage to main pool
     if (character!.currentHp - amount < 0) {
       character!.currentHp = 0;
+      amount = 0;
       notifyListeners();
       return;
     }
 
     // restrict damage to 0. Can't go lower than 0
     character!.currentHp = character!.currentHp > 0 ? character!.currentHp - amount: 0;  
+    amount = 0;
     notifyListeners(); 
   }
 
@@ -88,18 +92,21 @@ class HomeViewModel extends ChangeNotifier{
         // this should limit tempHP to maxTempHP
         if ((character!.currentTempHp + difference) > character!.maxTempHp) {
           character!.currentTempHp = character!.maxTempHp;
+          amount = 0;
           notifyListeners();
           return;
         }
         
         // if we don't max out tempHP this just adds difference to tempHP
         character!.currentTempHp = character!.currentTempHp + difference;
+        amount = 0;
         notifyListeners();
         return;
       }
 
       // heal main pool
       character!.currentHp = character!.currentHp + amount;
+      amount = 0;
       notifyListeners();
       return;
     }
@@ -110,12 +117,14 @@ class HomeViewModel extends ChangeNotifier{
       // max out tempHP if amount will overflow
       if (character!.currentTempHp + amount >= character!.maxTempHp) {
         character!.currentTempHp = character!.maxTempHp;
+        amount = 0;
         notifyListeners();
         return;
       }
 
       // heal tempHP
       character!.currentTempHp = character!.currentTempHp + amount;
+      amount = 0;
       notifyListeners();
       return;
     }
