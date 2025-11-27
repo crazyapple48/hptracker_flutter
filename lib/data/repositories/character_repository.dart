@@ -7,7 +7,7 @@ class CharacterRepository {
 
 
   Future<Character> getCharacter() async {
-    final response = await http.get(Uri.parse('http://localhost:5006/api/characters/20'));  
+    final response = await http.get(Uri.parse('http://localhost:5006/api/characters/22'));  
 
     // Character character = Character (
     //     name: "Max", 

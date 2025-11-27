@@ -21,12 +21,12 @@ class Character {
 
   factory Character.fromJson(Map<String, dynamic> json) {
     return switch (json) {
-      {'name': String name, 'currentHp': int currentHp, 'maxHp': int maxHp, 'tempHp': int currentTempHp, 'hitDiceTotal': int maxHitDice, 'hitDiceUsed': int currentHitDice} => Character(
+      {'name': String name, 'currentHp': int currentHp, 'maxHp': int maxHp, 'tempHp': int currentTempHp, 'maxTempHp': int maxTempHp, 'hitDiceTotal': int maxHitDice, 'hitDiceUsed': int currentHitDice} => Character(
         name: name,
         currentHp: currentHp,
         maxHp: maxHp,
         currentTempHp: currentTempHp,
-        maxTempHp: currentTempHp,
+        maxTempHp: maxTempHp,
         maxHitDice: maxHitDice,
         currentHitDice: currentHitDice
       ),
