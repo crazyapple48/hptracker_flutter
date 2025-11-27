@@ -7,7 +7,7 @@ import '../../domain/models/character.dart';
 class HptrackerApiService {
     
     Future<List<Character>> getCharacters() async {
-      final response = await http.get(Uri.parse('http://localhost:5006/api/characters'));
+      final response = await http.get(Uri.parse('http://192.168.0.39:5006/api/characters'));
 
       if (response.statusCode == 200) {
                 List<dynamic> jsonList = jsonDecode(response.body);
@@ -19,7 +19,7 @@ class HptrackerApiService {
 
     Future<Character> getCharacterById(int id) async {
 
-      final response = await http.get(Uri.parse('http://localhost:5006/api/characters/$id'));  
+      final response = await http.get(Uri.parse('http://192.168.0.39:5006/api/characters/$id'));  
 
       if (response.statusCode == 200) {
         return Character.fromJson(jsonDecode(response.body) as Map<String, dynamic>);

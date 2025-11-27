@@ -14,8 +14,8 @@ class CharacterRepository {
     try {
       final result = await apiService.getCharacters();
       return result;
-    } on Exception {
-      throw Exception("Something failed fetching character list");
+    } on Exception catch (e) {
+      throw Exception("Something failed fetching character list $e");
     }
   }
 
@@ -24,8 +24,8 @@ class CharacterRepository {
       final result = await apiService.getCharacterById(id);
       
       return result;
-    } on Exception {
-      throw Exception("Something failed fetching Character.");
+    } on Exception  catch (e) {
+      throw Exception ("Something failed fetching Character $e");
     }
   }
 }
