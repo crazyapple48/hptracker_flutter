@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hptracker_flutter/data/services/hptracker_api_service.dart';
 import 'package:hptracker_flutter/ui/home/home_viewmodel/home_viewmodel.dart';
 
 import 'data/repositories/character_repository.dart';
@@ -11,7 +12,7 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  final CharacterRepository characterRepository = CharacterRepository();
+  final CharacterRepository characterRepository = CharacterRepository(apiService: HptrackerApiService());
 
   // This widget is the root of your application.
   @override
