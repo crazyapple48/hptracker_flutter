@@ -10,10 +10,18 @@ class CharacterRepository {
     required this.apiService,
   });
 
-
-  Future<Character> getCharacter() async {
+  Future<List<Character>> getCharacters() async {
     try {
-      final result = await apiService.getCharacterById(22);
+      final result = await apiService.getCharacters();
+      return result;
+    } on Exception {
+      throw Exception("Something failed fetching character list");
+    }
+  }
+
+  Future<Character> getCharacter(int id) async {
+    try {
+      final result = await apiService.getCharacterById(id);
       
       return result;
     } on Exception {
