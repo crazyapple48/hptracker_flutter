@@ -42,6 +42,17 @@ class HomeViewModel extends ChangeNotifier{
     }
   }
 
+  void updateCharacter() async {
+    try {
+      if (_character == null) return;
+      _character = await _characterRepository.updateCharacterById(_character!.id, _character!);
+      notifyListeners();
+    } on Exception catch (e) {
+      exception = e;
+      notifyListeners();
+    }
+  }
+
 
   void takeDamage () {
     if (character == null) return;
@@ -54,14 +65,14 @@ class HomeViewModel extends ChangeNotifier{
         character!.currentTempHp = character!.currentTempHp - character!.currentTempHp;
         character!.currentHp = character!.currentHp - difference;
         amount = 0;
-        notifyListeners();
+        updateCharacter();
         return;
       }
 
       // take damage to tempHP
       character!.currentTempHp = character!.currentTempHp - amount;
       amount = 0;
-      notifyListeners();
+      updateCharacter();
       return;
     }
 
@@ -69,14 +80,14 @@ class HomeViewModel extends ChangeNotifier{
     if (character!.currentHp - amount < 0) {
       character!.currentHp = 0;
       amount = 0;
-      notifyListeners();
+      updateCharacter();
       return;
     }
 
     // restrict damage to 0. Can't go lower than 0
     character!.currentHp = character!.currentHp > 0 ? character!.currentHp - amount: 0;  
     amount = 0;
-    notifyListeners(); 
+    updateCharacter();
   }
 
   void healDamage () {
@@ -94,21 +105,21 @@ class HomeViewModel extends ChangeNotifier{
         if ((character!.currentTempHp + difference) > character!.maxTempHp) {
           character!.currentTempHp = character!.maxTempHp;
           amount = 0;
-          notifyListeners();
+          updateCharacter();
           return;
         }
         
         // if we don't max out tempHP this just adds difference to tempHP
         character!.currentTempHp = character!.currentTempHp + difference;
         amount = 0;
-        notifyListeners();
+        updateCharacter();
         return;
       }
 
       // heal main pool
       character!.currentHp = character!.currentHp + amount;
       amount = 0;
-      notifyListeners();
+      updateCharacter();
       return;
     }
 
@@ -119,14 +130,14 @@ class HomeViewModel extends ChangeNotifier{
       if (character!.currentTempHp + amount >= character!.maxTempHp) {
         character!.currentTempHp = character!.maxTempHp;
         amount = 0;
-        notifyListeners();
+        updateCharacter();
         return;
       }
 
       // heal tempHP
       character!.currentTempHp = character!.currentTempHp + amount;
       amount = 0;
-      notifyListeners();
+      updateCharacter();
       return;
     }
   }
@@ -146,11 +157,11 @@ class HomeViewModel extends ChangeNotifier{
 
     if (character!.currentHitDice <= 0) {
       character!.currentHitDice = 0;
-      notifyListeners();
+      updateCharacter();
       return;
     }
     character!.currentHitDice--;
-    notifyListeners();
+    updateCharacter();
   }
 
   void longRest() {
@@ -164,7 +175,6 @@ class HomeViewModel extends ChangeNotifier{
 
     character!.currentHitDice = character!.maxHitDice;
 
-
-    notifyListeners();
+    updateCharacter();
   }
 }

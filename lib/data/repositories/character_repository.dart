@@ -28,4 +28,14 @@ class CharacterRepository {
       throw Exception ("Something failed fetching Character $e");
     }
   }
+
+  Future<Character> updateCharacterById(int id, Character character) async {
+    try {
+      final result = await apiService.patchCharacterById(id, character);
+
+      return result;
+    } on Exception catch (e) {
+      throw Exception ("Something went wrong updating... $e");
+    }
+  }
 }

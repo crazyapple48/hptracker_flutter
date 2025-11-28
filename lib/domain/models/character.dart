@@ -36,4 +36,17 @@ class Character {
       _ => throw const FormatException('Failed to load Character.'),
     };
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "currentHp": currentHp,
+      "maxHp": maxHp,
+      "tempHp": currentTempHp,
+      "maxTempHp": maxTempHp,
+      "hitDiceUsed": currentHitDice,
+      "hitDiceTotal": maxHitDice
+    };
+  }
 }
