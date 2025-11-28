@@ -33,7 +33,7 @@ class _DamageButtonState extends State<DamageButton> {
           children: [
             FilledButton(onPressed: widget.increaseDamage, child: Text("+")),
             SizedBox(
-              width: 50,
+              width: 60,
               child: TextField(
                 controller: widget.controller,
                 keyboardType: TextInputType.number,
