@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hptracker_flutter/data/repositories/character_repository.dart';
-import 'package:hptracker_flutter/domain/models/character.dart';
+import 'package:hptracker_flutter/models/character.dart';
 
 class HomeViewModel extends ChangeNotifier{
   final TextEditingController textController = TextEditingController();

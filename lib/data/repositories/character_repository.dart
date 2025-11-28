@@ -1,6 +1,6 @@
 
 import 'package:hptracker_flutter/data/services/hptracker_api_service.dart';
-import 'package:hptracker_flutter/domain/models/character.dart';
+import 'package:hptracker_flutter/models/character.dart';
 
 class CharacterRepository {
 

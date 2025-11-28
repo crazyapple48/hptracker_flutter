@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hptracker_flutter/data/services/hptracker_api_service.dart';
-import 'package:hptracker_flutter/ui/home/home_viewmodel/home_viewmodel.dart';
+import 'package:hptracker_flutter/ui/home/home_viewmodel.dart';
 
 import 'data/repositories/character_repository.dart';
-import 'ui/home/widgets/home_screen.dart';
+import 'ui/home/home_screen.dart';
 
 void main() {
   runApp(MyApp());
