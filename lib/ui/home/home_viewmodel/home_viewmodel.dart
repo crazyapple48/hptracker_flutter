@@ -3,12 +3,9 @@ import 'package:hptracker_flutter/data/repositories/character_repository.dart';
 import 'package:hptracker_flutter/domain/models/character.dart';
 
 class HomeViewModel extends ChangeNotifier{
-  HomeViewModel({
-    required CharacterRepository characterRepository,
-  }) : 
-    _characterRepository = characterRepository;
+  final TextEditingController textController = TextEditingController();
 
-  final CharacterRepository _characterRepository;
+  CharacterRepository characterRepository;
 
   Character? _character;
 
@@ -20,11 +17,34 @@ class HomeViewModel extends ChangeNotifier{
 
   Exception? exception;
 
-  int amount = 0;
+  int _amount = 0;
+
+  int get amount => _amount;
+
+  HomeViewModel({
+    required  this.characterRepository,
+  })   {
+    textController.text = amount.toString();
+    textController.addListener(_onManualInputChange);
+  }
+
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
+
+  void _onManualInputChange() {
+    final int? newValue = int.tryParse(textController.text);
+    if (newValue != null && newValue != _amount) {
+      _amount = newValue;
+      notifyListeners();
+    }
+  }
 
   void loadCharacter(int id) async {
     try {
-      _character = await _characterRepository.getCharacter(id);
+      _character = await characterRepository.getCharacter(id);
       notifyListeners();
     } on Exception catch (e) {
       exception = e;
@@ -34,7 +54,7 @@ class HomeViewModel extends ChangeNotifier{
 
   void loadCharacters() async {
     try {
-      _characters = await _characterRepository.getCharacters();
+      _characters = await characterRepository.getCharacters();
       notifyListeners();
     } on Exception catch (e) {
       exception = e;
@@ -45,7 +65,9 @@ class HomeViewModel extends ChangeNotifier{
   void updateCharacter() async {
     try {
       if (_character == null) return;
-      _character = await _characterRepository.updateCharacterById(_character!.id, _character!);
+      _character = await characterRepository.updateCharacterById(_character!.id, _character!);
+      _amount = 0;
+      textController.text = _amount.toString();
       notifyListeners();
     } on Exception catch (e) {
       exception = e;
@@ -62,16 +84,20 @@ class HomeViewModel extends ChangeNotifier{
       if ((character!.currentTempHp - amount) <= 0) {
         int difference = amount - character!.currentTempHp;
 
-        character!.currentTempHp = character!.currentTempHp - character!.currentTempHp;
+        character!.currentTempHp = 0;
+
+        if ((character!.currentHp - difference) < 0) {
+          character!.currentHp = 0;
+          updateCharacter();
+          return;
+        }
         character!.currentHp = character!.currentHp - difference;
-        amount = 0;
         updateCharacter();
         return;
       }
 
       // take damage to tempHP
       character!.currentTempHp = character!.currentTempHp - amount;
-      amount = 0;
       updateCharacter();
       return;
     }
@@ -79,14 +105,12 @@ class HomeViewModel extends ChangeNotifier{
     // take damage to main pool
     if (character!.currentHp - amount < 0) {
       character!.currentHp = 0;
-      amount = 0;
       updateCharacter();
       return;
     }
 
     // restrict damage to 0. Can't go lower than 0
-    character!.currentHp = character!.currentHp > 0 ? character!.currentHp - amount: 0;  
-    amount = 0;
+    character!.currentHp = character!.currentHp > 0 ? character!.currentHp - amount: 0; 
     updateCharacter();
   }
 
@@ -98,27 +122,23 @@ class HomeViewModel extends ChangeNotifier{
       // if main pool overflows, set current = max and heal extra in tempHP
       if ((character!.currentHp + amount) > character!.maxHp) {
         int difference = amount - (character!.maxHp - character!.currentHp);
-
         character!.currentHp = character!.maxHp;
 
         // this should limit tempHP to maxTempHP
         if ((character!.currentTempHp + difference) > character!.maxTempHp) {
           character!.currentTempHp = character!.maxTempHp;
-          amount = 0;
           updateCharacter();
           return;
         }
         
         // if we don't max out tempHP this just adds difference to tempHP
         character!.currentTempHp = character!.currentTempHp + difference;
-        amount = 0;
         updateCharacter();
         return;
       }
 
       // heal main pool
       character!.currentHp = character!.currentHp + amount;
-      amount = 0;
       updateCharacter();
       return;
     }
@@ -129,26 +149,26 @@ class HomeViewModel extends ChangeNotifier{
       // max out tempHP if amount will overflow
       if (character!.currentTempHp + amount >= character!.maxTempHp) {
         character!.currentTempHp = character!.maxTempHp;
-        amount = 0;
         updateCharacter();
         return;
       }
 
       // heal tempHP
       character!.currentTempHp = character!.currentTempHp + amount;
-      amount = 0;
       updateCharacter();
       return;
     }
   }
 
   void increaseDamage() {
-    amount++;
+    _amount++;
+    textController.text = _amount.toString();
     notifyListeners();
   }
 
   void decreaseDamage() {
-    amount = amount > 0 ? amount - 1 : 0;
+    _amount = amount > 0 ? amount - 1 : 0;
+    textController.text = _amount.toString();
     notifyListeners();
   }
 

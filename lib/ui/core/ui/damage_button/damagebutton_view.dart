@@ -7,7 +7,8 @@ class DamageButton extends StatefulWidget {
     required this.heal,
     required this.increaseDamage,
     required this.decreaseDamage,
-    required this.amount
+    required this.amount,
+    required this.controller,
     });
 
   final int amount;
@@ -15,6 +16,7 @@ class DamageButton extends StatefulWidget {
   final VoidCallback heal;
   final VoidCallback increaseDamage;
   final VoidCallback decreaseDamage;
+  final TextEditingController controller;
 
   @override
   State<DamageButton> createState() => _DamageButtonState();
@@ -22,7 +24,7 @@ class DamageButton extends StatefulWidget {
 }
 
 class _DamageButtonState extends State<DamageButton> {
-  
+
   @override 
   Widget build(BuildContext context) {
     return Row(
@@ -30,16 +32,28 @@ class _DamageButtonState extends State<DamageButton> {
         Column(
           children: [
             FilledButton(onPressed: widget.increaseDamage, child: Text("+")),
-            Text('${widget.amount}'),
+            SizedBox(
+              width: 50,
+              child: TextField(
+                controller: widget.controller,
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.center,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
             FilledButton(onPressed: widget.decreaseDamage, child: Text("-")),
           ],
         ),
+        SizedBox(width: 20,),
         Column(
           children: [
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
               onPressed: widget.takeDamage, 
               child: const Text("Damage")),
+            SizedBox(height: 15,),
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.green),
               onPressed: widget.heal, 

@@ -58,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     increaseDamage: widget.viewModel.increaseDamage,
                     decreaseDamage: widget.viewModel.decreaseDamage,
                     amount: widget.viewModel.amount,
+                    controller: widget.viewModel.textController,
                     ),
                 ],
               ),
