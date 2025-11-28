@@ -4,6 +4,7 @@ import 'package:hptracker_flutter/models/character.dart';
 
 class HomeViewModel extends ChangeNotifier{
   final TextEditingController textController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
 
   CharacterRepository characterRepository;
 
@@ -26,12 +27,22 @@ class HomeViewModel extends ChangeNotifier{
   })   {
     textController.text = amount.toString();
     textController.addListener(_onManualInputChange);
+    focusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
+    textController.removeListener(_onManualInputChange);
+    focusNode.removeListener(_onFocusChange);
     textController.dispose();
+    focusNode.dispose();
     super.dispose();
+  }
+
+  void _onFocusChange() {
+    if (focusNode.hasFocus) {
+      textController.selection = TextSelection(baseOffset: 0, extentOffset: textController.text.length); 
+    }
   }
 
   void _onManualInputChange() {

@@ -60,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     addTempHp: widget.viewModel.addTempHp,
                     amount: widget.viewModel.amount,
                     controller: widget.viewModel.textController,
+                    focusNode: widget.viewModel.focusNode,
                     ),
                 ],
               ),

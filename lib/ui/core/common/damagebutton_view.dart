@@ -10,6 +10,7 @@ class DamageButton extends StatefulWidget {
     required this.amount,
     required this.controller,
     required this.addTempHp,
+    required this.focusNode,
   });
 
   final int amount;
@@ -19,6 +20,7 @@ class DamageButton extends StatefulWidget {
   final VoidCallback decreaseDamage;
   final VoidCallback addTempHp;
   final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   State<DamageButton> createState() => _DamageButtonState();
@@ -36,6 +38,7 @@ class _DamageButtonState extends State<DamageButton> {
               width: 60,
               child: TextField(
                 controller: widget.controller,
+                focusNode: widget.focusNode,
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(border: OutlineInputBorder()),
