@@ -75,6 +75,12 @@ class HomeViewModel extends ChangeNotifier{
     }
   }
 
+  void addTempHp() {
+    if (character == null) return;
+    character!.maxTempHp = amount;
+    character!.currentTempHp = character!.maxTempHp;
+    updateCharacter();
+  } 
 
   void takeDamage () {
     if (character == null) return;

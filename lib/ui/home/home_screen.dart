@@ -57,6 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     heal: widget.viewModel.healDamage,
                     increaseDamage: widget.viewModel.increaseDamage,
                     decreaseDamage: widget.viewModel.decreaseDamage,
+                    addTempHp: widget.viewModel.addTempHp,
                     amount: widget.viewModel.amount,
                     controller: widget.viewModel.textController,
                     ),

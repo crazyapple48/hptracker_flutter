@@ -9,23 +9,23 @@ class DamageButton extends StatefulWidget {
     required this.decreaseDamage,
     required this.amount,
     required this.controller,
-    });
+    required this.addTempHp,
+  });
 
   final int amount;
   final VoidCallback takeDamage;
   final VoidCallback heal;
   final VoidCallback increaseDamage;
   final VoidCallback decreaseDamage;
+  final VoidCallback addTempHp;
   final TextEditingController controller;
 
   @override
   State<DamageButton> createState() => _DamageButtonState();
-
 }
 
 class _DamageButtonState extends State<DamageButton> {
-
-  @override 
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
@@ -38,26 +38,30 @@ class _DamageButtonState extends State<DamageButton> {
                 controller: widget.controller,
                 keyboardType: TextInputType.number,
                 textAlign: TextAlign.center,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
+                decoration: InputDecoration(border: OutlineInputBorder()),
               ),
             ),
             FilledButton(onPressed: widget.decreaseDamage, child: Text("-")),
           ],
         ),
-        SizedBox(width: 20,),
+        SizedBox(width: 20),
         Column(
           children: [
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.red),
-              onPressed: widget.takeDamage, 
-              child: const Text("Damage")),
-            SizedBox(height: 15,),
+              onPressed: widget.takeDamage,
+              child: const Text("Damage"),
+            ),
+            SizedBox(height: 15),
             FilledButton(
               style: FilledButton.styleFrom(backgroundColor: Colors.green),
-              onPressed: widget.heal, 
-              child: const Text("Heal"))
+              onPressed: widget.heal,
+              child: const Text("Heal"),
+            ),
+            SizedBox(height: 15),
+            FilledButton(
+              onPressed: widget.addTempHp, 
+              child: const Text("Add Temp Hp")),
           ],
         ),
       ],
