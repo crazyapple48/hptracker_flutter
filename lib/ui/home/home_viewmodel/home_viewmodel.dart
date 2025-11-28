@@ -18,26 +18,27 @@ class HomeViewModel extends ChangeNotifier{
 
   List<Character> get characters => _characters;
 
+  Exception? exception;
+
   int amount = 0;
 
-  void loadCharacter() async {
+  void loadCharacter(int id) async {
     try {
-      _character = await _characterRepository.getCharacter(23);
+      _character = await _characterRepository.getCharacter(id);
       notifyListeners();
     } on Exception catch (e) {
-      print(e);
+      exception = e;
+      notifyListeners();
     }
   }
 
   void loadCharacters() async {
     try {
       _characters = await _characterRepository.getCharacters();
-      for (Character character in characters) {
-        print(character.name);
-      }
       notifyListeners();
     } on Exception catch (e) {
-      print(e);
+      exception = e;
+      notifyListeners();
     }
   }
 

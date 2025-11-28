@@ -20,7 +20,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    widget.viewModel.loadCharacter();
     widget.viewModel.loadCharacters();
 
     return Scaffold(
@@ -32,7 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
         listenable: widget.viewModel,
         builder: (context, _) {
           final character = widget.viewModel.character;
-          if (character == null) return const Text("Loading....");
+          if (widget.viewModel.exception != null) return const Text("Something went wrong! Oh no!!!");
+          if (character == null) return Center(child: const Text("Select a Character"));
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -109,9 +109,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Text(character.name),
                   onTap: () {
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Tapped on ${character.name}', style: TextStyle(color: Colors.white),)),
-                    );
+                    widget.viewModel.loadCharacter(character.id);
                   },
                 )),
               ],
