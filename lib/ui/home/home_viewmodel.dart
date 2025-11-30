@@ -3,8 +3,19 @@ import 'package:hptracker_flutter/data/repositories/character_repository.dart';
 import 'package:hptracker_flutter/models/character.dart';
 
 class HomeViewModel extends ChangeNotifier{
-  final TextEditingController textController = TextEditingController();
-  final FocusNode focusNode = FocusNode();
+  final TextEditingController amountTextController = TextEditingController();
+
+  final TextEditingController nameTextController = TextEditingController();
+  final TextEditingController maxHpTextController = TextEditingController();
+  final TextEditingController maxTempHpTextController = TextEditingController();
+  final TextEditingController maxHitDiceTextController = TextEditingController();
+
+  final FocusNode amountFocusNode = FocusNode();
+
+  final FocusNode nameFocusNode = FocusNode();
+  final FocusNode maxHpFocusNode = FocusNode();
+  final FocusNode maxTempHpFocusNode = FocusNode();
+  final FocusNode maxHitDiceFocusNode = FocusNode();
 
   CharacterRepository characterRepository;
 
@@ -22,40 +33,104 @@ class HomeViewModel extends ChangeNotifier{
 
   int get amount => _amount;
 
+  bool _isLoading = false;
+
+  bool get isLoading => _isLoading;
+
   HomeViewModel({
     required  this.characterRepository,
   })   {
-    textController.text = amount.toString();
-    textController.addListener(_onManualInputChange);
-    focusNode.addListener(_onFocusChange);
+    amountTextController.text = amount.toString();
+    amountTextController.addListener(() => _onManualAmountInputChange(amountTextController));
+    nameTextController.addListener(() => _onNameInputChange(nameTextController));
+    maxHpTextController.addListener(() => _onNewNumberInputChange(maxHpTextController));
+    maxHitDiceTextController.addListener(() => _onNewNumberInputChange(maxHitDiceTextController));
+    maxTempHpTextController.addListener(() => _onNewNumberInputChange(maxTempHpTextController));
+    amountFocusNode.addListener(() => _onFocusChange(amountFocusNode, amountTextController));
+    nameFocusNode.addListener(() => _onFocusChange(nameFocusNode, nameTextController));
+    maxHpFocusNode.addListener(() => _onFocusChange(maxHpFocusNode, maxHpTextController));
+    maxTempHpFocusNode.addListener(() => _onFocusChange(maxTempHpFocusNode, maxTempHpTextController));
+    maxHitDiceFocusNode.addListener(() => _onFocusChange(maxHitDiceFocusNode, maxHitDiceTextController));
   }
 
   @override
   void dispose() {
-    textController.removeListener(_onManualInputChange);
-    focusNode.removeListener(_onFocusChange);
-    textController.dispose();
-    focusNode.dispose();
+    amountTextController.removeListener(() => _onManualAmountInputChange(amountTextController));
+    nameTextController.removeListener(() => _onNameInputChange(nameTextController));
+    maxHpTextController.removeListener(() => _onNewNumberInputChange(maxHpTextController));
+    maxTempHpTextController.removeListener(() => _onNewNumberInputChange(maxTempHpTextController));
+    maxHitDiceTextController.removeListener(() => _onNewNumberInputChange(maxHitDiceTextController));
+    amountFocusNode.removeListener(() => _onFocusChange(amountFocusNode, amountTextController));
+    nameFocusNode.removeListener(() => _onFocusChange(nameFocusNode, nameTextController));
+    maxHpFocusNode.removeListener(() => _onFocusChange(maxHpFocusNode, maxHpTextController));
+    maxTempHpFocusNode .removeListener(() => _onFocusChange(maxTempHpFocusNode, maxTempHpTextController));
+    maxHitDiceFocusNode.removeListener(() => _onFocusChange(maxHitDiceFocusNode, maxHitDiceTextController));
+    amountTextController.dispose();
+    nameTextController.dispose();
+    maxHpTextController.dispose();
+    maxTempHpTextController.dispose();
+    maxHitDiceTextController.dispose();
+    amountFocusNode.dispose();
+    nameFocusNode.dispose();
+    maxHpFocusNode.dispose();
+    maxTempHpFocusNode.dispose();
+    maxHitDiceFocusNode.dispose();
     super.dispose();
   }
 
-  void _onFocusChange() {
+  void _onFocusChange(FocusNode focusNode, TextEditingController controller) {
     if (focusNode.hasFocus) {
-      textController.selection = TextSelection(baseOffset: 0, extentOffset: textController.text.length); 
+      controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length); 
     }
   }
 
-  void _onManualInputChange() {
-    final int? newValue = int.tryParse(textController.text);
+  void _onManualAmountInputChange(TextEditingController controller) {
+    final int? newValue = int.tryParse(controller.text);
     if (newValue != null && newValue != _amount) {
       _amount = newValue;
       notifyListeners();
     }
   }
 
-  void loadCharacter(int id) async {
+  void _onNameInputChange(TextEditingController controller) {
+    notifyListeners();
+  }
+
+  void _onNewNumberInputChange(TextEditingController controller) {
+    final int? newValue = int.tryParse(controller.text);
+
+    if (newValue != null) {
+      notifyListeners();
+    }
+  }
+
+  Future<void> saveNewCharacter() async {
+    _isLoading = true;
+    notifyListeners();
+
+    _character = Character(
+      name: nameTextController.text, 
+      currentHp: int.parse(maxHpTextController.text),
+      maxHp: int.parse(maxHpTextController.text),
+      currentTempHp: int.parse(maxTempHpTextController.text),
+      maxTempHp: int.parse(maxTempHpTextController.text),
+      currentHitDice: int.parse(maxHitDiceTextController.text),
+      maxHitDice: int.parse(maxHitDiceTextController.text));
+
+    await characterRepository.createCharacter(character!);
+
+    _isLoading = false;
+
+    nameTextController.clear();
+    maxHpTextController.clear();
+    maxTempHpTextController.clear();
+    maxHitDiceTextController.clear();
+    notifyListeners();
+  }
+
+  void loadCharacter(int? id) async {
     try {
-      _character = await characterRepository.getCharacter(id);
+      _character = await characterRepository.getCharacter(id!);
       notifyListeners();
     } on Exception catch (e) {
       exception = e;
@@ -78,7 +153,7 @@ class HomeViewModel extends ChangeNotifier{
       if (_character == null) return;
       _character = await characterRepository.updateCharacterById(_character!.id, _character!);
       _amount = 0;
-      textController.text = _amount.toString();
+      amountTextController.text = _amount.toString();
       notifyListeners();
     } on Exception catch (e) {
       exception = e;
@@ -179,13 +254,13 @@ class HomeViewModel extends ChangeNotifier{
 
   void increaseDamage() {
     _amount++;
-    textController.text = _amount.toString();
+    amountTextController.text = _amount.toString();
     notifyListeners();
   }
 
   void decreaseDamage() {
     _amount = amount > 0 ? amount - 1 : 0;
-    textController.text = _amount.toString();
+    amountTextController.text = _amount.toString();
     notifyListeners();
   }
 

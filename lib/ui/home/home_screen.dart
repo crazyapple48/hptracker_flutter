@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hptracker_flutter/ui/core/common/damagebutton_view.dart';
+import 'package:hptracker_flutter/ui/core/common/newcharacterform_view.dart';
 import 'package:hptracker_flutter/ui/home/home_viewmodel.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -59,8 +60,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     decreaseDamage: widget.viewModel.decreaseDamage,
                     addTempHp: widget.viewModel.addTempHp,
                     amount: widget.viewModel.amount,
-                    controller: widget.viewModel.textController,
-                    focusNode: widget.viewModel.focusNode,
+                    controller: widget.viewModel.amountTextController,
+                    focusNode: widget.viewModel.amountFocusNode,
                     ),
                 ],
               ),
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListenableBuilder(
           listenable: widget.viewModel, 
           builder: (BuildContext context, _) {
+            widget.viewModel.loadCharacters();
             final characters = widget.viewModel.characters;
             return ListView(
               padding: EdgeInsets.zero,
@@ -112,13 +114,26 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Text(character.name),
                   onTap: () {
                     Navigator.pop(context);
-                    widget.viewModel.loadCharacter(character.id);
+                    if (character.id != null) {
+                     widget.viewModel.loadCharacter(character.id);
+                    }
                   },
                 )),
               ],
             );
           }) 
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context, 
+            builder: (BuildContext context) {
+              return NewcharacterformView(viewModel: widget.viewModel);
+            },
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

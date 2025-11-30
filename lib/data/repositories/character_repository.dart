@@ -29,13 +29,23 @@ class CharacterRepository {
     }
   }
 
-  Future<Character> updateCharacterById(int id, Character character) async {
+  Future<Character> updateCharacterById(int? id, Character character) async {
     try {
-      final result = await apiService.patchCharacterById(id, character);
+      final result = await apiService.patchCharacterById(id!, character);
 
       return result;
     } on Exception catch (e) {
       throw Exception ("Something went wrong updating... $e");
+    }
+  }
+
+  Future<void> createCharacter(Character character) async {
+    try {
+      final result = await apiService.postCharacter(character);
+
+      return result;
+    } on Exception catch (e) {
+      throw Exception ("Something went wrong creating... $e");
     }
   }
 }

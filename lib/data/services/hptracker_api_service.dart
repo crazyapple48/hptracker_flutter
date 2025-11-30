@@ -46,4 +46,21 @@ class HptrackerApiService {
       throw Exception('Failed to update character');
     }
   }
+
+  Future<void> postCharacter(Character character) async {
+    final url = Uri.parse('$baseUrl');
+    final headers = {'Content-Type': 'application/json; charset=UTF-8'};
+
+    final response = await http.post(
+      url,
+      headers: headers,
+      body: jsonEncode(character.toJson()),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return;
+    } else {
+      throw Exception('Failed to create character');
+    }
+  }
 }
