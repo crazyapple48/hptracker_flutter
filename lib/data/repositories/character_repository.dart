@@ -1,14 +1,10 @@
-
 import 'package:hptracker_flutter/data/services/hptracker_api_service.dart';
 import 'package:hptracker_flutter/models/character.dart';
 
 class CharacterRepository {
-
   final HptrackerApiService apiService;
 
-  CharacterRepository({
-    required this.apiService,
-  });
+  CharacterRepository({required this.apiService});
 
   Future<List<Character>> getCharacters() async {
     try {
@@ -22,10 +18,10 @@ class CharacterRepository {
   Future<Character> getCharacter(int id) async {
     try {
       final result = await apiService.getCharacterById(id);
-      
+
       return result;
-    } on Exception  catch (e) {
-      throw Exception ("Something failed fetching Character $e");
+    } on Exception catch (e) {
+      throw Exception("Something failed fetching Character $e");
     }
   }
 
@@ -35,7 +31,7 @@ class CharacterRepository {
 
       return result;
     } on Exception catch (e) {
-      throw Exception ("Something went wrong updating... $e");
+      throw Exception("Something went wrong updating... $e");
     }
   }
 
@@ -45,7 +41,7 @@ class CharacterRepository {
 
       return result;
     } on Exception catch (e) {
-      throw Exception ("Something went wrong creating... $e");
+      throw Exception("Something went wrong creating... $e");
     }
   }
 }

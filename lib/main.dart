@@ -12,7 +12,9 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  final CharacterRepository characterRepository = CharacterRepository(apiService: HptrackerApiService());
+  final CharacterRepository characterRepository = CharacterRepository(
+    apiService: HptrackerApiService(),
+  );
 
   // This widget is the root of your application.
   @override
@@ -25,14 +27,16 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 124, 7, 170), brightness: Brightness.dark)
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Color.fromARGB(255, 124, 7, 170),
+          brightness: Brightness.dark,
+        ),
       ),
       themeMode: ThemeMode.system,
       home: MyHomePage(
         title: 'Hp Tracker',
-        viewModel: HomeViewModel(characterRepository: characterRepository)
-        ),
+        viewModel: HomeViewModel(characterRepository: characterRepository),
+      ),
     );
   }
 }
-

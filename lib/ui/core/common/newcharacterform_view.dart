@@ -46,7 +46,9 @@ class _NewcharacterformViewState extends State<NewcharacterformView> {
                       child: TextFormField(
                         controller: widget.viewModel.nameTextController,
                         focusNode: widget.viewModel.nameFocusNode,
-                        decoration: const InputDecoration(hintText: "Enter Name..."),
+                        decoration: const InputDecoration(
+                          hintText: "Enter Name...",
+                        ),
                       ),
                     ),
                   ],
@@ -116,26 +118,30 @@ class _NewcharacterformViewState extends State<NewcharacterformView> {
           ),
           actions: <Widget>[
             TextButton(
-              onPressed: isLoading ? null : () {
-                widget.viewModel.nameTextController.clear();
-                widget.viewModel.maxHpTextController.clear();
-                widget.viewModel.maxTempHpTextController.clear();
-                widget.viewModel.maxHitDiceTextController.clear();
-                Navigator.of(context).pop();
-              },
+              onPressed: isLoading
+                  ? null
+                  : () {
+                      widget.viewModel.nameTextController.clear();
+                      widget.viewModel.maxHpTextController.clear();
+                      widget.viewModel.maxTempHpTextController.clear();
+                      widget.viewModel.maxHitDiceTextController.clear();
+                      Navigator.of(context).pop();
+                    },
               child: const Text('Cancel'),
             ),
             ElevatedButton(
-              onPressed: isLoading ? null : _submitForm, 
-              child: isLoading ? const SizedBox(
-                width: 20,
-                height: 20,
-                child: CircularProgressIndicator(strokeWidth: 2,),
-                ) : const Text("Save")
-              ) 
+              onPressed: isLoading ? null : _submitForm,
+              child: isLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Text("Save"),
+            ),
           ],
         );
-      }
+      },
     );
   }
 }

@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:hptracker_flutter/data/repositories/character_repository.dart';
 import 'package:hptracker_flutter/models/character.dart';
 
-class HomeViewModel extends ChangeNotifier{
+class HomeViewModel extends ChangeNotifier {
   final TextEditingController amountTextController = TextEditingController();
 
   final TextEditingController nameTextController = TextEditingController();
   final TextEditingController maxHpTextController = TextEditingController();
   final TextEditingController maxTempHpTextController = TextEditingController();
-  final TextEditingController maxHitDiceTextController = TextEditingController();
+  final TextEditingController maxHitDiceTextController =
+      TextEditingController();
 
   final FocusNode amountFocusNode = FocusNode();
 
@@ -37,34 +38,72 @@ class HomeViewModel extends ChangeNotifier{
 
   bool get isLoading => _isLoading;
 
-  HomeViewModel({
-    required  this.characterRepository,
-  })   {
+  HomeViewModel({required this.characterRepository}) {
     amountTextController.text = amount.toString();
-    amountTextController.addListener(() => _onManualAmountInputChange(amountTextController));
-    nameTextController.addListener(() => _onNameInputChange(nameTextController));
-    maxHpTextController.addListener(() => _onNewNumberInputChange(maxHpTextController));
-    maxHitDiceTextController.addListener(() => _onNewNumberInputChange(maxHitDiceTextController));
-    maxTempHpTextController.addListener(() => _onNewNumberInputChange(maxTempHpTextController));
-    amountFocusNode.addListener(() => _onFocusChange(amountFocusNode, amountTextController));
-    nameFocusNode.addListener(() => _onFocusChange(nameFocusNode, nameTextController));
-    maxHpFocusNode.addListener(() => _onFocusChange(maxHpFocusNode, maxHpTextController));
-    maxTempHpFocusNode.addListener(() => _onFocusChange(maxTempHpFocusNode, maxTempHpTextController));
-    maxHitDiceFocusNode.addListener(() => _onFocusChange(maxHitDiceFocusNode, maxHitDiceTextController));
+    amountTextController.addListener(
+      () => _onManualAmountInputChange(amountTextController),
+    );
+    nameTextController.addListener(
+      () => _onNameInputChange(nameTextController),
+    );
+    maxHpTextController.addListener(
+      () => _onNewNumberInputChange(maxHpTextController),
+    );
+    maxHitDiceTextController.addListener(
+      () => _onNewNumberInputChange(maxHitDiceTextController),
+    );
+    maxTempHpTextController.addListener(
+      () => _onNewNumberInputChange(maxTempHpTextController),
+    );
+    amountFocusNode.addListener(
+      () => _onFocusChange(amountFocusNode, amountTextController),
+    );
+    nameFocusNode.addListener(
+      () => _onFocusChange(nameFocusNode, nameTextController),
+    );
+    maxHpFocusNode.addListener(
+      () => _onFocusChange(maxHpFocusNode, maxHpTextController),
+    );
+    maxTempHpFocusNode.addListener(
+      () => _onFocusChange(maxTempHpFocusNode, maxTempHpTextController),
+    );
+    maxHitDiceFocusNode.addListener(
+      () => _onFocusChange(maxHitDiceFocusNode, maxHitDiceTextController),
+    );
   }
 
   @override
   void dispose() {
-    amountTextController.removeListener(() => _onManualAmountInputChange(amountTextController));
-    nameTextController.removeListener(() => _onNameInputChange(nameTextController));
-    maxHpTextController.removeListener(() => _onNewNumberInputChange(maxHpTextController));
-    maxTempHpTextController.removeListener(() => _onNewNumberInputChange(maxTempHpTextController));
-    maxHitDiceTextController.removeListener(() => _onNewNumberInputChange(maxHitDiceTextController));
-    amountFocusNode.removeListener(() => _onFocusChange(amountFocusNode, amountTextController));
-    nameFocusNode.removeListener(() => _onFocusChange(nameFocusNode, nameTextController));
-    maxHpFocusNode.removeListener(() => _onFocusChange(maxHpFocusNode, maxHpTextController));
-    maxTempHpFocusNode .removeListener(() => _onFocusChange(maxTempHpFocusNode, maxTempHpTextController));
-    maxHitDiceFocusNode.removeListener(() => _onFocusChange(maxHitDiceFocusNode, maxHitDiceTextController));
+    amountTextController.removeListener(
+      () => _onManualAmountInputChange(amountTextController),
+    );
+    nameTextController.removeListener(
+      () => _onNameInputChange(nameTextController),
+    );
+    maxHpTextController.removeListener(
+      () => _onNewNumberInputChange(maxHpTextController),
+    );
+    maxTempHpTextController.removeListener(
+      () => _onNewNumberInputChange(maxTempHpTextController),
+    );
+    maxHitDiceTextController.removeListener(
+      () => _onNewNumberInputChange(maxHitDiceTextController),
+    );
+    amountFocusNode.removeListener(
+      () => _onFocusChange(amountFocusNode, amountTextController),
+    );
+    nameFocusNode.removeListener(
+      () => _onFocusChange(nameFocusNode, nameTextController),
+    );
+    maxHpFocusNode.removeListener(
+      () => _onFocusChange(maxHpFocusNode, maxHpTextController),
+    );
+    maxTempHpFocusNode.removeListener(
+      () => _onFocusChange(maxTempHpFocusNode, maxTempHpTextController),
+    );
+    maxHitDiceFocusNode.removeListener(
+      () => _onFocusChange(maxHitDiceFocusNode, maxHitDiceTextController),
+    );
     amountTextController.dispose();
     nameTextController.dispose();
     maxHpTextController.dispose();
@@ -80,7 +119,10 @@ class HomeViewModel extends ChangeNotifier{
 
   void _onFocusChange(FocusNode focusNode, TextEditingController controller) {
     if (focusNode.hasFocus) {
-      controller.selection = TextSelection(baseOffset: 0, extentOffset: controller.text.length); 
+      controller.selection = TextSelection(
+        baseOffset: 0,
+        extentOffset: controller.text.length,
+      );
     }
   }
 
@@ -109,13 +151,14 @@ class HomeViewModel extends ChangeNotifier{
     notifyListeners();
 
     _character = Character(
-      name: nameTextController.text, 
+      name: nameTextController.text,
       currentHp: int.parse(maxHpTextController.text),
       maxHp: int.parse(maxHpTextController.text),
       currentTempHp: int.parse(maxTempHpTextController.text),
       maxTempHp: int.parse(maxTempHpTextController.text),
       currentHitDice: int.parse(maxHitDiceTextController.text),
-      maxHitDice: int.parse(maxHitDiceTextController.text));
+      maxHitDice: int.parse(maxHitDiceTextController.text),
+    );
 
     await characterRepository.createCharacter(character!);
 
@@ -151,7 +194,10 @@ class HomeViewModel extends ChangeNotifier{
   void updateCharacter() async {
     try {
       if (_character == null) return;
-      _character = await characterRepository.updateCharacterById(_character!.id, _character!);
+      _character = await characterRepository.updateCharacterById(
+        _character!.id,
+        _character!,
+      );
       _amount = 0;
       amountTextController.text = _amount.toString();
       notifyListeners();
@@ -166,9 +212,9 @@ class HomeViewModel extends ChangeNotifier{
     character!.maxTempHp = amount;
     character!.currentTempHp = character!.maxTempHp;
     updateCharacter();
-  } 
+  }
 
-  void takeDamage () {
+  void takeDamage() {
     if (character == null) return;
     // if tempHP can soak damage, do so
     if (character!.currentTempHp > 0) {
@@ -202,11 +248,13 @@ class HomeViewModel extends ChangeNotifier{
     }
 
     // restrict damage to 0. Can't go lower than 0
-    character!.currentHp = character!.currentHp > 0 ? character!.currentHp - amount: 0; 
+    character!.currentHp = character!.currentHp > 0
+        ? character!.currentHp - amount
+        : 0;
     updateCharacter();
   }
 
-  void healDamage () {
+  void healDamage() {
     if (character == null) return;
 
     // if we can heal main pool, heal main pool
@@ -222,7 +270,7 @@ class HomeViewModel extends ChangeNotifier{
           updateCharacter();
           return;
         }
-        
+
         // if we don't max out tempHP this just adds difference to tempHP
         character!.currentTempHp = character!.currentTempHp + difference;
         updateCharacter();
@@ -237,7 +285,6 @@ class HomeViewModel extends ChangeNotifier{
 
     // main pool maxed, should just heal tempHP
     if (character!.currentTempHp < character!.maxTempHp) {
-
       // max out tempHP if amount will overflow
       if (character!.currentTempHp + amount >= character!.maxTempHp) {
         character!.currentTempHp = character!.maxTempHp;

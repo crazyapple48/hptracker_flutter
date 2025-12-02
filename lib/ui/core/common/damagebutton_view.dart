@@ -63,8 +63,9 @@ class _DamageButtonState extends State<DamageButton> {
             ),
             SizedBox(height: 15),
             FilledButton(
-              onPressed: widget.addTempHp, 
-              child: const Text("Add Temp Hp")),
+              onPressed: widget.addTempHp,
+              child: const Text("Add Temp Hp"),
+            ),
           ],
         ),
       ],
