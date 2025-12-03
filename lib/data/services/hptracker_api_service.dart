@@ -63,4 +63,16 @@ class HptrackerApiService {
       throw Exception('Failed to create character');
     }
   }
+
+  Future<void> deleteCharacterById(int id) async {
+    final url = Uri.parse('$baseUrl/$id');
+
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Failed to delete character');
+    }
+  }
 }

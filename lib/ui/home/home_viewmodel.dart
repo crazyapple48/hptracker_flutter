@@ -243,6 +243,20 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  void removeCharacter(int? id) async {
+    try {
+      if (id != null) {
+        await characterRepository.deleteCharacter(id);
+        if (_character!.id == id) {
+          _character = null;
+        }
+      }
+    } on Exception catch (e) {
+      exception = e;
+      notifyListeners();
+    }
+  }
+
   void addTempHp() {
     if (character == null) return;
     character!.maxTempHp = amount;

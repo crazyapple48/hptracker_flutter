@@ -103,6 +103,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 ...characters.map(
                   (character) => ListTile(
                     title: Text(character.name),
+                    trailing: IconButton(
+                      onPressed: () =>
+                          widget.viewModel.removeCharacter(character.id),
+                      icon: Icon(Icons.delete),
+                    ),
                     onTap: () {
                       Navigator.pop(context);
                       if (character.id != null) {

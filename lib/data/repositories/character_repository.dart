@@ -44,4 +44,12 @@ class CharacterRepository {
       throw Exception("Something went wrong creating... $e");
     }
   }
+
+  Future<void> deleteCharacter(int id) async {
+    try {
+      await apiService.deleteCharacterById(id);
+    } on Exception {
+      rethrow;
+    }
+  }
 }
