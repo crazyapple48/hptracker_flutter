@@ -7,7 +7,9 @@ class HomeViewModel extends ChangeNotifier {
 
   final TextEditingController nameTextController = TextEditingController();
   final TextEditingController maxHpTextController = TextEditingController();
-  final TextEditingController maxTempHpTextController = TextEditingController();
+  final TextEditingController maxTempHpTextController = TextEditingController(
+    text: "0",
+  );
   final TextEditingController maxHitDiceTextController =
       TextEditingController();
 
@@ -21,22 +23,25 @@ class HomeViewModel extends ChangeNotifier {
   CharacterRepository characterRepository;
 
   Character? _character;
-
   Character? get character => _character;
 
   List<Character> _characters = [];
-
   List<Character> get characters => _characters;
 
   Exception? exception;
 
   int _amount = 0;
-
   int get amount => _amount;
 
   bool _isLoading = false;
-
   bool get isLoading => _isLoading;
+
+  String? _validationError;
+  String? get validationError => _validationError;
+  void setValidationError(String? error) {
+    _validationError = error;
+    notifyListeners();
+  }
 
   HomeViewModel({required this.characterRepository}) {
     amountTextController.text = amount.toString();
@@ -115,6 +120,37 @@ class HomeViewModel extends ChangeNotifier {
     maxTempHpFocusNode.dispose();
     maxHitDiceFocusNode.dispose();
     super.dispose();
+  }
+
+  bool validateAmount() {
+    final value = amountTextController.text;
+
+    if (value.isEmpty) {
+      setValidationError("Please enter a number");
+      notifyListeners();
+      return false;
+    }
+    int? newValue = int.tryParse(value);
+    if (newValue == null) {
+      setValidationError("Must be an integer");
+      notifyListeners();
+      return false;
+    }
+
+    if (newValue < 0) {
+      setValidationError("Cannot be negative!");
+      notifyListeners();
+      return false;
+    }
+
+    if (newValue > 200) {
+      setValidationError("No way it's this much");
+      notifyListeners();
+      return false;
+    }
+    setValidationError(null);
+    notifyListeners();
+    return true;
   }
 
   void _onFocusChange(FocusNode focusNode, TextEditingController controller) {
@@ -214,7 +250,7 @@ class HomeViewModel extends ChangeNotifier {
     updateCharacter();
   }
 
-  void takeDamage() {
+  void takeDamage() async {
     if (character == null) return;
     // if tempHP can soak damage, do so
     if (character!.currentTempHp > 0) {

@@ -26,10 +26,12 @@ class _MyHomePageState extends State<MyHomePage> {
         listenable: widget.viewModel,
         builder: (context, _) {
           final character = widget.viewModel.character;
-          if (widget.viewModel.exception != null)
+          if (widget.viewModel.exception != null) {
             return const Text("Something went wrong! Oh no!!!");
-          if (character == null)
+          }
+          if (character == null) {
             return Center(child: const Text("Select a Character"));
+          }
           return Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -50,16 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ],
                   ),
-                  DamageButton(
-                    takeDamage: widget.viewModel.takeDamage,
-                    heal: widget.viewModel.healDamage,
-                    increaseDamage: widget.viewModel.increaseDamage,
-                    decreaseDamage: widget.viewModel.decreaseDamage,
-                    addTempHp: widget.viewModel.addTempHp,
-                    amount: widget.viewModel.amount,
-                    controller: widget.viewModel.amountTextController,
-                    focusNode: widget.viewModel.amountFocusNode,
-                  ),
+                  DamageButton(viewModel: widget.viewModel),
                 ],
               ),
               Row(
