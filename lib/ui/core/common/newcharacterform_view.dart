@@ -59,6 +59,7 @@ class _NewcharacterformViewState extends State<NewcharacterformView> {
                             if (value.length > 50) {
                               return "Name must be less than 50 characters";
                             }
+                            return null;
                           },
                         ),
                       ),

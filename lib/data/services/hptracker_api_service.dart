@@ -48,7 +48,7 @@ class HptrackerApiService {
   }
 
   Future<void> postCharacter(Character character) async {
-    final url = Uri.parse('$baseUrl');
+    final url = Uri.parse(baseUrl);
     final headers = {'Content-Type': 'application/json; charset=UTF-8'};
 
     final response = await http.post(
